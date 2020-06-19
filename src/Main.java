@@ -30,41 +30,61 @@ public class Main {
             if (inputLine.get(j)[0].equals("Create")){
                 if (inputLine.get(j)[1].equals("Book")){
                     Book book = createBook(inputLine.get(j));
-                    int st = MainLib.searchInLibrary(book);
-                    if (st==0)
-                        MainLib.generalBookList.add(book);
-                    else
-                        MainLib.generalBookList.get(MainLib.generalBookList.indexOf(book)).stock++;
+                    if (book.equals(null))
+                        System.out.println("line: "+(j+1)+"Invalid Info!");
+                    else {
+                        int st = MainLib.searchInLibrary(book);
+                        if (st == 0)
+                            MainLib.generalBookList.add(book);
+                        else
+                            MainLib.generalBookList.get(MainLib.generalBookList.indexOf(book)).stock++;
+                    }
                 } else if (inputLine.get(j)[1].equals("Person")){
                     Person person = createPerson(inputLine.get(j));
-                    personList.add(person);
+                    if (person.equals(null))
+                        System.out.println("line: "+(j+1)+"Invalid Info!");
+                    else
+                        personList.add(person);
                 }
             }else if (inputLine.get(j)[0].equals("Add")){
                 if (inputLine.get(j)[1].equals("Book")){
                     if (inputLine.get(j)[2].equalsIgnoreCase("Store")){
-                        String[] bookDetails = inputLine.get(j)[4].split(",");
-                        Book book = searchInBookList(bookDetails[0],bookDetails[1],bookDetails[2]);
-                        MainLib.addBookToStore(book);
+                        if (inputLine.get(j).length==5) {
+                            String[] bookDetails = inputLine.get(j)[4].split(",");
+                            Book book = searchInBookList(bookDetails[0], bookDetails[1], bookDetails[2]);
+                            MainLib.addBookToStore(book);
+                        } else
+                            System.out.println("line: "+(j+1)+"Invalid Book's Info");
                     } else {
-                        String[] bookDetails = inputLine.get(j)[3].split(",");
-                        Book book = searchInBookList(bookDetails[0],bookDetails[1],bookDetails[2]);
-                        MainLib.generalBookList.add(book);
-                        if (inputLine.get(j)[2].equalsIgnoreCase("MainLibrary"))
-                            mainLib.addBook(book);
-                        else if (inputLine.get(j)[2].equalsIgnoreCase("a"))
-                            libraryA.addBook(book);
-                        else if (inputLine.get(j)[2].equalsIgnoreCase("b"))
-                            libraryB.addBook(book);
+                        if (inputLine.get(j).length == 4) {
+                            String[] bookDetails = inputLine.get(j)[3].split(",");
+                            Book book = searchInBookList(bookDetails[0], bookDetails[1], bookDetails[2]);
+                            MainLib.generalBookList.add(book);
+                            if (inputLine.get(j)[2].equalsIgnoreCase("MainLibrary"))
+                                mainLib.addBook(book);
+                            else if (inputLine.get(j)[2].equalsIgnoreCase("a"))
+                                libraryA.addBook(book);
+                            else if (inputLine.get(j)[2].equalsIgnoreCase("b"))
+                                libraryB.addBook(book);
+                        } else
+                            System.out.println("line: " + (j + 1) + "Invalid Book's Info");
                     }
                 } else if (inputLine.get(j)[1].equals("Person")){
                     if (inputLine.get(j)[2].equals("Student")){
-                        Person student = searchStudent(inputLine.get(j)[3]);
-                        mainLib.addMember(student,true);
+                        if (inputLine.get(j).length == 4) {
+                            Person student = searchStudent(inputLine.get(j)[3]);
+                            mainLib.addMember(student,true);
+                        } else
+                            System.out.println("line: " + (j + 1) + "Invalid Student's Info");
                     } else if (inputLine.get(j)[2].equals("Professor")){
-                        Professor professor = searchProfessor(inputLine.get(j)[3]);
-                        mainLib.addMember(professor, false);
+                        if (inputLine.get(j).length == 4) {
+                            Professor professor = searchProfessor(inputLine.get(j)[3]);
+                            mainLib.addMember(professor, false);
+                        } else
+                            System.out.println("line: " + (j + 1) + "Invalid Professor's Info");
                     }
                 } else if (inputLine.get(j)[1].equals("Worker")){
+                    if (inputLine.get(j).length == 4) {
                     Employee employee = (Employee) searchInPersonList(inputLine.get(j)[2]);
                     if (inputLine.get(j)[3].equalsIgnoreCase("mainLibrary")){
                         mainLib.addEmployee(employee);
@@ -73,6 +93,8 @@ public class Main {
                     } else if (inputLine.get(j)[3].equalsIgnoreCase("b")){
                         libraryB.addEmployee(employee);
                     }
+                    } else
+                        System.out.println("line: " + (j + 1) + "Invalid Worker's Info");
                 }
             } else if (inputLine.get(j)[0].equals("Deposit")){
                 if (inputLine.get(j)[1].equals("Student")){
@@ -148,7 +170,7 @@ public class Main {
                     if (MainLib.discountCode.equals(inputLine.get(j)[6])){
                         price = ((100-MainLib.discountPercent)*price)/100;
                     } else {
-                        System.out.println("invalid discount code!");
+                        System.out.println("line"+(j+1)+"invalid discount code!");
                     }
                     MainLib.sellBook(book,inputLine.get(j)[3],inputLine.get(j)[4],inputLine.get(j)[5],price);
                 }
@@ -204,7 +226,7 @@ public class Main {
         }
         System.out.println("MainLibrarys workers data:");
         for (Employee employee : MainLib.employeesList) {
-            System.out.println("Schedule -> "employee.firstName+" : "+employee.schedule.toString());
+            System.out.println("Schedule -> "+employee.firstName+" : "+employee.schedule.toString());
         }
     }
 

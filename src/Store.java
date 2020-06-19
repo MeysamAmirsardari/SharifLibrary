@@ -21,7 +21,7 @@ public abstract class Store {
                             ","+ID+","+Main.toDay.date+","+Integer.toString((int) price)+","+worker.firstName;
                     MainLib.soldBooks.add(result);
                 } else
-                    System.out.println("Not enough budget!");
+                    System.out.println("Your credit is bellow -10000 ( current credit = -10000.0 )");
             }
         } else
             System.out.println("Member not found!");
