@@ -31,9 +31,10 @@ public abstract class Store {
     public static int giveBackToStore (String bookDetails, String memberType, String ID, String time){
         String[] details = bookDetails.split(",");
         Book book = Main.searchInBookList(details[0],details[1],details[2]);
-        if ((!(book.equals(null)))&&(MainLib.shopList.contains(book))) {
+        if ((book!=null)&&(MainLib.shopList.contains(book))) {
             int index = MainLib.searchInSoldBooks(book);
-            if (ID.equals(MainLib.soldBooks.get(index).split(",")[4])){
+            if (index>=0){
+            if (ID.equals(MainLib.soldBooks.get(index).split(",")[4])) {
                 MainLib.shopList.get(MainLib.shopList.indexOf(book)).stockInStore++;
                 String sellDay = MainLib.soldBooks.get(index).split(",")[5];
                 int sellPrice = Integer.parseInt(MainLib.soldBooks.get(index).split(",")[6]);
@@ -45,6 +46,7 @@ public abstract class Store {
                         + Integer.toString((int) GBPrice) + employee.firstName;
                 MainLib.storeReimbursedBooks.add(GBTSDetails);
                 return 1;
+            }
             }
         }
         return 0;

@@ -9,7 +9,7 @@ public interface Library {
     public void addBook(Book book);
     public void addEmployee(Employee employee);
     public void loanBook(String bookDetails, String memberType, String ID, String loanTime, Date loanDate, String GBD);
-    public void giveBack(String bookDetails, String memberType, String ID, String time);
+    public int giveBack(String bookDetails, String memberType, String ID, String time);
     public void updateWorkPlan(String nationalID, int[] attendance);
     public void countPenalty();
 }
